@@ -1,0 +1,6 @@
+pip-wheel-metadata
+.python-version
+pyjosim.egg-info
+pyjosim.cpython-*.so
+build
+compile_commands.json
