@@ -4,6 +4,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include <algorithm>
 #include <regex>
 #include <string>
 #include <vector>
@@ -82,7 +83,9 @@ void input(py::module &m) {
                constexpr auto match_name_regex_string =
                    R"(\s*\.PARAM\s*([^=\s]*)\s*=\s*.*\s*)";
 
-               auto match_name_regex = std::regex(match_name_regex_string, std::regex::icase | std::regex::optimize);
+               auto match_name_regex =
+                   std::regex(match_name_regex_string,
+                              std::regex::icase | std::regex::optimize);
                std::smatch match_name_result;
 
                for (auto &unparsed_param : parameters.unparsedParams) {
@@ -169,7 +172,24 @@ void input(py::module &m) {
       .def_readonly("netlist", &Input::netlist)
       .def_readonly("cli_verbose", &Input::argVerb)
       .def_readonly("cli_analysis", &Input::argAnal)
-      .def("clone", [](const Input &input) -> Input { return input; });
+      .def("clone", [](const Input &input) -> Input { return input; })
+      .def("clear_plots",
+           [](Input &input) {
+             input.controls.erase(std::remove_if(
+                 input.controls.begin(), input.controls.end(),
+                 [](const std::string &str) {
+                   for (const auto value : {"PLOT", "SAVE", "PRINT"}) {
+                     if (str.find(value) != std::string::npos)
+                       return true;
+                   }
+
+                   return false;
+                 }));
+           })
+      .def("add_plot", [](Input &input, const std::string &str) {
+        input.controls.emplace_back(
+            std::move(std::string(".PRINT ").append(str)));
+      });
 }
 
 } // namespace pyjosim

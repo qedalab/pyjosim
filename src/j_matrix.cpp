@@ -10,7 +10,8 @@ namespace pyjosim {
 void matrix(py::module &m) {
   py::class_<Matrix>(m, "Matrix")
       .def(py::init<>())
-      .def("create_matrix", &Matrix::create_matrix);
+      .def("create_matrix", &Matrix::create_matrix)
+      .def("find_relevant_x", &Matrix::find_relevant_x);
 }
 
 } // namespace pyjosim
