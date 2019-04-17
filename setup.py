@@ -42,6 +42,12 @@ def get_cmake_executable():
     cmake3_version = get_cmake_version("cmake3")
     cmake_version = get_cmake_version("cmake")
 
+    if cmake3_version is None:
+        return "cmake"
+
+    if cmake_version is None:
+        return "cmake3"
+
     # Use newer cmake
     if cmake3_version > cmake_version:
         return "cmake3"
