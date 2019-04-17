@@ -38,10 +38,21 @@ class CMakeBuildType:
         object.__setattr__(self, "build_type", build_type)
 
 
-def get_cmake_version():
+def get_cmake_executable():
+    cmake3_version = get_cmake_version("cmake3")
+    cmake_version = get_cmake_version("cmake")
+
+    # Use newer cmake
+    if cmake3_version > cmake_version:
+        return "cmake3"
+    else:
+        return "cmake"
+
+
+def get_cmake_version(cmake_exe: str = "cmake"):
     """ Returns the CMake version or None if CMake is not found """
     try:
-        out = subprocess.check_output(["cmake", "--version"])
+        out = subprocess.check_output([cmake_exe, "--version"])
     except OSError:
         return None
 
@@ -56,6 +67,7 @@ class CMakeExtension(Extension):
     _minimum_cmake_version: LooseVersion
     _cmake_version: LooseVersion
     _source_directory: str
+    _cmake_exe: str
 
     def __init__(
         self,
@@ -63,7 +75,15 @@ class CMakeExtension(Extension):
         source_directory="",
         build_type: CMakeBuildType = None,
         minimum_cmake_version: str = "3.13",
+        cmake_exe: Optional[str] = None
     ):
+        # Set CMake executable
+        if cmake_exe is not None:
+            self._cmake_exe = cmake_exe
+        else:
+            self._cmake_exe = get_cmake_executable()
+        print("CMake executable {}".format(self._cmake_exe))
+
         self._update_cmake_version(minimum_cmake_version)
         self._set_source_directory(source_directory)
 
@@ -76,7 +96,7 @@ class CMakeExtension(Extension):
 
     def _update_cmake_version(self, minimum_cmake_version):
         """ Checks that minimum cmake version and sets version info """
-        cmake_version = get_cmake_version()
+        cmake_version = get_cmake_version(self._cmake_exe)
 
         # Ensure that CMake is found
         if cmake_version is None:
@@ -126,8 +146,8 @@ class CMakeBuild(build_ext):
 
         self._make_build_dir()
         self._conan_install(ext._source_directory)
-        self._cmake_configure(cmake_args)
-        self._cmake_build()
+        self._cmake_configure(ext._cmake_exe, cmake_args)
+        self._cmake_build(ext._cmake_exe)
         # self._install()
 
     def _conan_install(self, source_directory):
@@ -149,18 +169,18 @@ class CMakeBuild(build_ext):
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
 
-    def _cmake_configure(self, cmake_args: List[str]):
+    def _cmake_configure(self, cmake_exe: str, cmake_args: List[str]):
         """ Configures the project """
-        subprocess.check_call(["cmake"] + cmake_args, cwd=self.build_temp)
+        subprocess.check_call([cmake_exe] + cmake_args, cwd=self.build_temp)
 
-    def _cmake_build(self, build_args: List[str] = None):
+    def _cmake_build(self, cmake_exe: str, build_args: List[str] = None):
         """ Build project """
 
         if build_args is None:
             build_args = []
 
         subprocess.check_call(
-            ["cmake", "--build", "."] + build_args, cwd=self.build_temp
+            [cmake_exe, "--build", "."] + build_args, cwd=self.build_temp
         )
 
     def _install(self):

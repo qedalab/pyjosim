@@ -11,13 +11,9 @@ project(pyjosim
 # Include cmake scripts
 include(${PROJECT_SOURCE_DIR}/cmake/conan.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/warnings.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/suitesparse.cmake)
 
 find_package(pybind11 REQUIRED)
-find_package(CMakeSuiteSparseConfig REQUIRED)
-find_package(CMakeSuiteSparseAMD REQUIRED)
-find_package(CMakeSuiteSparseCOLAMD REQUIRED)
-find_package(CMakeSuiteSparseBTF REQUIRED)
-find_package(CMakeSuiteSparseKLU REQUIRED)
 find_package(josim REQUIRED)
 
 pybind11_add_module(pyjosim
