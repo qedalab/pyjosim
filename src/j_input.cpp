@@ -19,6 +19,16 @@
 namespace py = pybind11;
 
 namespace pyjosim {
+
+std::string to_string(double value) {
+  std::ostringstream stream;
+  stream << std::setprecision(std::numeric_limits<double>::digits10 + 1);
+  stream << value;
+  std::string tmp = stream.str();
+  std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::toupper);
+  return std::move(tmp);
+}
+
 // using namespace JoSim
 void input(py::module &m) {
   using namespace JoSIM;
@@ -105,7 +115,7 @@ void input(py::module &m) {
                    unparsed_param.second = ".PARAM ";
                    unparsed_param.second.append(param_name);
                    unparsed_param.second.append("=");
-                   unparsed_param.second.append(std::to_string(value));
+                   unparsed_param.second.append(to_string(value));
                    return;
                  }
                }
