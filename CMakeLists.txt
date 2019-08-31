@@ -9,11 +9,8 @@ project(pyjosim
         LANGUAGES CXX)
 
 # Include cmake scripts
-include(${PROJECT_SOURCE_DIR}/cmake/conan.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/dependencies.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/warnings.cmake)
-
-find_package(pybind11 REQUIRED)
-find_package(josim REQUIRED)
 
 pybind11_add_module(pyjosim
                     SHARED
@@ -23,6 +20,8 @@ pybind11_add_module(pyjosim
                     src/j_output.cpp
                     src/j_matrix.cpp
                     src/j_simulation.cpp)
+
+set_target_properties(pyjosim PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
 # Add include directories
 target_include_directories(

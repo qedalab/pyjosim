@@ -81,7 +81,7 @@ class CMakeExtension(Extension):
         source_directory="",
         build_type: CMakeBuildType = None,
         minimum_cmake_version: str = "3.13",
-        cmake_exe: Optional[str] = None
+        cmake_exe: Optional[str] = None,
     ):
         # Set CMake executable
         if cmake_exe is not None:
@@ -148,18 +148,17 @@ class CMakeBuild(build_ext):
             ext.get_source_directory(),
             self._get_build_type_flag(ext.get_build_type()),
             "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={}".format(extension_directory),
+            '-DCMAKE_EXE_LINKER_FLAGS=-flto',
+            # "-DCMAKE_CXX_FLAGS='-flto -static-libgcc -static-libstdc++'",
+            # "-DCMAKE_C_FLAGS='-flto -static-libgcc'",
+            "-DCMAKE_CXX_FLAGS='-flto'",
+            "-DCMAKE_C_FLAGS='-flto'",
+            '-DCMAKE_SHARED_LINKER_FLAGS="-flto"',
         ]
 
         self._make_build_dir()
-        self._conan_install(ext._source_directory)
         self._cmake_configure(ext._cmake_exe, cmake_args)
         self._cmake_build(ext._cmake_exe)
-        # self._install()
-
-    def _conan_install(self, source_directory):
-        subprocess.check_call(
-            ["conan", "install", source_directory], cwd=self.build_temp
-        )
 
     def _get_build_type_flag(self, build_type: Optional[CMakeBuildType]):
         """ Get CMake build type flag """
@@ -203,5 +202,5 @@ setup(
     # Package data
     ext_modules=[CMakeExtension("pyjosim", minimum_cmake_version="3.13")],
     cmdclass=dict(build_ext=CMakeBuild),
-    zip_safe=False
+    zip_safe=False,
 )

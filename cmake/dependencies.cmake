@@ -1,0 +1,17 @@
+include(${CMAKE_CURRENT_LIST_DIR}/CPM.cmake)
+
+CPMAddPackage(
+  NAME pybind11
+  GITHUB_REPOSITORY pybind/pybind11
+  VERSION 2.2.3
+)
+
+CPMAddPackage(
+  NAME josim
+  GITHUB_REPOSITORY pleroux0/JoSIM
+  VERSION 2.3
+  GIT_TAG 5e78c54520c45905dcea322da67de4c28b2164e0
+  OPTIONS
+    "USING_OPENMP OFF"
+    "MAKING_STATIC_BUILD ON"
+)
