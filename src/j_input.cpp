@@ -120,7 +120,7 @@ void input(py::module &m) {
                  }
                }
 
-               throw std::runtime_error("Failed replacing unparsed param!");
+               throw std::runtime_error("Parameter name not found in netlist");
 
              } catch (std::regex_error &re) {
                std::puts("PYJOSIM INTERNAL ERROR:");
