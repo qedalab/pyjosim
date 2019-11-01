@@ -3,12 +3,12 @@ import os
 import sys
 import re
 import subprocess
+from dataclasses import dataclass
+
 from distutils.version import LooseVersion
 from typing import Optional, List
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
-
-import attr
 
 if sys.version_info < (3, 6):
     print("Python 3.6 or higher is required, please upgrade.")
@@ -18,24 +18,24 @@ REQUIREMENTS = ["numpy"]
 BUILD_REQUIREMENTS = ["setuptools", "wheels", "cmake>=3.13", "ninja"]
 
 
-@attr.s(auto_attribs=True, slots=True, frozen=True, init=False)
+@dataclass
 class CMakeBuildType:
     """ CMake build class"""
 
     build_type: str
 
-    def __init__(self, build_type: str, custom: bool = False):
+    def __post_init__(self):
 
-        if not custom and build_type.upper() not in [
+        if self.build_type.upper() not in [
             "DEBUG",
             "RELEASE",
             "MINSIZEREL",
             "RELWITHDEBINFO",
         ]:
             print("ERROR: invalid build type: '{}'".format(build_type))
-            exit(-1)
+            sys.exit(-1)
 
-        object.__setattr__(self, "build_type", build_type)
+        self.build_type = self.build_type.upper()
 
 
 def get_cmake_executable():
@@ -51,8 +51,8 @@ def get_cmake_executable():
     # Use newer cmake
     if cmake3_version > cmake_version:
         return "cmake3"
-    else:
-        return "cmake"
+
+    return "cmake"
 
 
 def get_cmake_version(cmake_exe: str = "cmake"):
@@ -107,14 +107,14 @@ class CMakeExtension(Extension):
         # Ensure that CMake is found
         if cmake_version is None:
             print("ERROR: CMake executable not found.")
-            exit(-1)
+            sys.exit(-1)
 
         # Ensure that the minimum cmake version
         if cmake_version < minimum_cmake_version:
             print("ERROR: Found CMake is too old")
             print("  found={}".format(cmake_version))
             print("  required={}".format(minimum_cmake_version))
-            exit(-1)
+            sys.exit(-1)
 
         self._minimum_cmake_version = LooseVersion(minimum_cmake_version)
         self._cmake_version = cmake_version
@@ -138,7 +138,7 @@ class CMakeBuild(build_ext):
     def build_extension(self, ext: CMakeExtension):
         if not isinstance(ext, CMakeExtension):
             print("ERROR: CMakeBuild cannot build non CMakeExtension")
-            exit(-1)
+            sys.exit(-1)
 
         extension_directory = os.path.abspath(
             os.path.dirname(self.get_ext_fullpath(ext.name))
