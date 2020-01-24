@@ -3,7 +3,6 @@ import os
 import sys
 import re
 import subprocess
-from dataclasses import dataclass
 
 from distutils.version import LooseVersion
 from typing import Optional, List
@@ -18,9 +17,11 @@ REQUIREMENTS = ["numpy"]
 BUILD_REQUIREMENTS = ["setuptools", "wheels", "cmake>=3.13", "ninja"]
 
 
-@dataclass
 class CMakeBuildType:
     """ CMake build class"""
+
+    def __init__(self, build_type: str):
+        self.build_type = build_type
 
     build_type: str
 
@@ -32,7 +33,7 @@ class CMakeBuildType:
             "MINSIZEREL",
             "RELWITHDEBINFO",
         ]:
-            print("ERROR: invalid build type: '{}'".format(build_type))
+            print("ERROR: invalid build type: '{}'".format(self.build_type))
             sys.exit(-1)
 
         self.build_type = self.build_type.upper()
@@ -148,12 +149,7 @@ class CMakeBuild(build_ext):
             ext.get_source_directory(),
             self._get_build_type_flag(ext.get_build_type()),
             "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={}".format(extension_directory),
-            '-DCMAKE_EXE_LINKER_FLAGS=-flto',
-            # "-DCMAKE_CXX_FLAGS='-flto -static-libgcc -static-libstdc++'",
-            # "-DCMAKE_C_FLAGS='-flto -static-libgcc'",
-            "-DCMAKE_CXX_FLAGS='-flto'",
-            "-DCMAKE_C_FLAGS='-flto'",
-            '-DCMAKE_SHARED_LINKER_FLAGS="-flto"',
+            '-DINTERPROCEDURAL_OPTIMIZATION=ON',
         ]
 
         self._make_build_dir()
