@@ -16,6 +16,8 @@ def josim_cli(args):
     netlist.expand_subcircuits()
     netlist.expand_maindesign()
 
+    josim_input.identify_simulation()
+
 
 def test_jtl_basic():
     josim_cli(["./tests/ex_jtl_basic.cir"])

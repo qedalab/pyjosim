@@ -11,6 +11,9 @@ void input(py::module &m) {
 
   py::class_<Input>(m, "Input")
       .def(py::init<AnalysisType, InputType, bool>())
+      .def("identify_simulation", [](Input& self) {
+        Transient::identify_simulation(self.controls, self.transSim);
+      })
       .def_readwrite("parameters", &Input::parameters)
       .def_readwrite("netlist", &Input::netlist)
       .def("parse_file",
