@@ -5,7 +5,9 @@ namespace py = pybind11;
 // Define submodules
 namespace pyjosim {
 
+void analysis_type(py::module &m);
 void cli_options(py::module& m);
+void input_type(py::module& m);
 
 }; // namespace pyjosim
 
@@ -15,6 +17,8 @@ PYBIND11_MODULE(pyjosim, m) {
 
   m.doc() = "JoSIM python interface";
 
+  analysis_type(m);
+  input_type(m);
   cli_options(m);
 }
 

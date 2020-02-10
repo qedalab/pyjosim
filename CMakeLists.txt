@@ -16,7 +16,10 @@ pybind11_add_module(pyjosim
                     SHARED
                     THIN_LTO
                     src/CliOptions.cpp
-                    src/pyjosim.cpp)
+                    src/AnalysisType.cpp
+                    src/InputType.cpp
+                    src/pyjosim.cpp
+  )
 
 set_target_properties(pyjosim PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
