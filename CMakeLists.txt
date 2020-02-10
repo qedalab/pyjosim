@@ -15,8 +15,9 @@ include(${PROJECT_SOURCE_DIR}/cmake/warnings.cmake)
 pybind11_add_module(pyjosim
                     SHARED
                     THIN_LTO
-                    src/CliOptions.cpp
                     src/AnalysisType.cpp
+                    src/CliOptions.cpp
+                    src/Input.cpp
                     src/InputType.cpp
                     src/pyjosim.cpp
   )
