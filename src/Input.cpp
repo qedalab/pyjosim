@@ -12,6 +12,7 @@ void input(py::module &m) {
   py::class_<Input>(m, "Input")
       .def(py::init<AnalysisType, InputType, bool>())
       .def_readwrite("parameters", &Input::parameters)
+      .def_readwrite("netlist", &Input::netlist)
       .def("parse_file",
            [](Input &self, std::string path) { Input::parse_file(path, self); })
       .def("parse_models", [](Input &self) {

@@ -12,6 +12,10 @@ def josim_cli(args):
 
     josim_input.parse_models()
 
+    netlist = josim_input.netlist
+    netlist.expand_subcircuits()
+    netlist.expand_maindesign()
+
 
 def test_jtl_basic():
     josim_cli(["./tests/ex_jtl_basic.cir"])
