@@ -4,3 +4,5 @@ pyjosim.egg-info
 pyjosim.cpython-*.so
 build
 compile_commands.json
+.mypy_cache
+.clangd
