@@ -10,13 +10,9 @@ void input(py::module &m) {
 
   py::class_<Input>(m, "Input")
       .def(py::init<AnalysisType, InputType, bool>())
+      .def_readwrite("parameters", &Input::parameters)
       .def("parse_file", [](Input &self, std::string path) {
-        try{
         Input::parse_file(path, self);
-        } catch(const std::exception& e) {
-          std::puts(e.what());
-          throw;
-        }
       });
 }
 
