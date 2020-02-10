@@ -19,6 +19,7 @@ pybind11_add_module(pyjosim
                     src/CliOptions.cpp
                     src/Input.cpp
                     src/InputType.cpp
+                    src/Matrix.cpp
                     src/Netlist.cpp
                     src/ParameterName.cpp
                     src/Parameters.cpp

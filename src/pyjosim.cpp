@@ -9,6 +9,7 @@ void analysis_type(py::module &m);
 void cli_options(py::module& m);
 void input(py::module& m);
 void input_type(py::module& m);
+void matrix(py::module& m);
 void netlist(py::module& m);
 void parameter_name(py::module& m);
 void parameters(py::module& m);
@@ -25,6 +26,7 @@ PYBIND11_MODULE(pyjosim, m) {
   cli_options(m);
   input(m);
   input_type(m);
+  matrix(m);
   netlist(m);
   parameter_name(m);
   parameters(m);
