@@ -2,10 +2,11 @@
 
 #include <pybind11/iostream.h>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 namespace py = pybind11;
 
 namespace pyjosim {
-void input(py::module &m) {
+void cli_options(py::module &m) {
   using namespace JoSIM;
 
   py::class_<CliOptions>(m, "CliOptions")
