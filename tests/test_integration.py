@@ -10,6 +10,8 @@ def josim_cli(args):
     if len(parameters) > 0:
         parameters.parse()
 
+    josim_input.parse_models()
+
 
 def test_jtl_basic():
     josim_cli(["./tests/ex_jtl_basic.cir"])
