@@ -13,6 +13,7 @@ void matrix(py::module& m);
 void netlist(py::module& m);
 void parameter_name(py::module& m);
 void parameters(py::module& m);
+void simulation(py::module& m);
 
 }; // namespace pyjosim
 
@@ -30,5 +31,6 @@ PYBIND11_MODULE(pyjosim, m) {
   netlist(m);
   parameter_name(m);
   parameters(m);
+  simulation(m);
 }
 

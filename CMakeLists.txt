@@ -23,6 +23,7 @@ pybind11_add_module(pyjosim
                     src/Netlist.cpp
                     src/ParameterName.cpp
                     src/Parameters.cpp
+                    src/Simulation.cpp
                     src/pyjosim.cpp
   )
 
