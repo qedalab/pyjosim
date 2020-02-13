@@ -22,6 +22,7 @@ def josim_cli(args):
     simulation = Simulation(josim_input, matrix)
     output = Output(josim_input, matrix, simulation)
 
+    return output.traces
 
 def test_jtl_basic():
     josim_cli(["./tests/ex_jtl_basic.cir"])
