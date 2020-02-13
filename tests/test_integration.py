@@ -1,4 +1,4 @@
-from pyjosim import CliOptions, Input, Matrix, Simulation
+from pyjosim import CliOptions, Input, Matrix, Simulation, Output
 
 
 def josim_cli(args):
@@ -20,6 +20,7 @@ def josim_cli(args):
 
     matrix = Matrix(josim_input)
     simulation = Simulation(josim_input, matrix)
+    output = Output(josim_input, matrix, simulation)
 
 
 def test_jtl_basic():
