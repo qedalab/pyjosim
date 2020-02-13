@@ -15,7 +15,17 @@ void output(py::module &m)
 
     py::class_<Trace>(m, "Trace")
         .def_readonly("type", &Trace::type_)
-        .def_readonly("name", &Trace::name_)
+        .def_property_readonly("name",
+                               [](const Trace &trace) {
+                                   auto &&name = trace.name_;
+                                   if (name.front() == '"' &&
+                                       name.back() == '"' && name.size() >= 2)
+                                       return std::string(name.begin() + 1,
+                                                          name.begin() +
+                                                              name.size() - 1);
+
+                                   return std::string(name);
+                               })
         .def_property_readonly("data", [](Trace &trace) {
             auto &vec = trace.data_;
             double *data = vec.data();
