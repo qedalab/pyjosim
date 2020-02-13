@@ -31,7 +31,7 @@ void output(py::module &m)
             double *data = vec.data();
             size_t size = vec.size();
             return py::array_t<double>(size, data);
-        });
+        }, py::return_value_policy::reference_internal);
 
     py::bind_vector<std::vector<Trace>>(m, "Traces");
 
@@ -43,7 +43,7 @@ void output(py::module &m)
              }),
              py::keep_alive<1, 2>(), py::keep_alive<1, 3>(),
              py::keep_alive<1, 4>())
-        .def_readonly("traces", &Output::traces);
+        .def_readonly("traces", &Output::traces, py::return_value_policy::reference_internal);
 }
 
 } // namespace pyjosim

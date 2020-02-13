@@ -28,6 +28,8 @@ pybind11_add_module(pyjosim
                     src/pyjosim.cpp
   )
 
+target_compile_features(pyjosim PUBLIC cxx_std_17)
+
 set_target_properties(pyjosim PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
 # Add include directories
