@@ -149,7 +149,7 @@ class CMakeBuild(build_ext):
             ext.get_source_directory(),
             self._get_build_type_flag(ext.get_build_type()),
             "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={}".format(extension_directory),
-            '-DINTERPROCEDURAL_OPTIMIZATION=ON',
+            "-DINTERPROCEDURAL_OPTIMIZATION=ON",
         ]
 
         self._make_build_dir()

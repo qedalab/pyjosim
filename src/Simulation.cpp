@@ -4,13 +4,15 @@
 namespace py = pybind11;
 
 namespace pyjosim {
-void simulation(py::module &m) {
-  using namespace JoSIM;
+void simulation(py::module &m)
+{
+    using namespace JoSIM;
 
-  py::class_<Simulation>(m, "Simulation").def(py::init([](Input &input, Matrix& matrix) {
-    Simulation simulation(input, matrix);
-    return simulation;
-  }));
+    py::class_<Simulation>(m, "Simulation")
+        .def(py::init([](Input &input, Matrix &matrix) {
+            Simulation simulation(input, matrix);
+            return simulation;
+        }));
 }
 
 } // namespace pyjosim
