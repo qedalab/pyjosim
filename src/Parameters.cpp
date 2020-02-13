@@ -20,6 +20,7 @@ void parameters(py::module &m)
         });
 
     py::class_<Parameter>(m, "Parameter")
+        .def(py::init())
         .def("set_expression", &Parameter::set_expression)
         .def("set_value", &Parameter::set_value)
         .def("get_expression", &Parameter::get_expression)
