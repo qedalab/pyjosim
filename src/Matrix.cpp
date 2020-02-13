@@ -10,7 +10,7 @@ void matrix(py::module &m) {
   py::class_<Matrix>(m, "Matrix").def(py::init([](Input &input) {
     Matrix matrix;
     matrix.create_matrix(input);
-    RelevantTrace::find_relevant_traces(input.controls, matrix);
+    find_relevant_traces(input.controls, matrix);
     return matrix;
   }));
 }

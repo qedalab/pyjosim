@@ -8,8 +8,7 @@ void simulation(py::module &m) {
   using namespace JoSIM;
 
   py::class_<Simulation>(m, "Simulation").def(py::init([](Input &input, Matrix& matrix) {
-    Simulation simulation;
-    simulation.trans_sim_new(input, matrix);
+    Simulation simulation(input, matrix);
     return simulation;
   }));
 }

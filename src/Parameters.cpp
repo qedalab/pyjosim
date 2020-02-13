@@ -4,7 +4,7 @@
 #include <pybind11/stl_bind.h>
 namespace py = pybind11;
 
-PYBIND11_MAKE_OPAQUE(std::unordered_map<JoSIM::ParameterName, Parameter>);
+PYBIND11_MAKE_OPAQUE(std::unordered_map<JoSIM::ParameterName, JoSIM::Parameter>);
 
 namespace pyjosim {
 
@@ -14,7 +14,7 @@ void parameters(py::module &m) {
 
   py::bind_map<std::unordered_map<ParameterName, Parameter>>(m, "Parameters")
       .def("parse", [](std::unordered_map<ParameterName, Parameter> &self) {
-        Parameters::parse_parameters(self);
+        parse_parameters(self);
       });
 
   py::class_<Parameter>(m, "Parameter")

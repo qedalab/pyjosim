@@ -17,7 +17,7 @@ void input(py::module &m) {
       .def_readwrite("parameters", &Input::parameters)
       .def_readwrite("netlist", &Input::netlist)
       .def("parse_file",
-           [](Input &self, std::string path) { Input::parse_file(path, self); })
+           [](Input &self, std::string path) { self.parse_file(path); })
       .def("parse_models", [](Input &self) {
         for (const auto &model : self.netlist.models) {
           auto pair = std::make_pair(model.second, model.first.second);
