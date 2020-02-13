@@ -37,10 +37,12 @@ void output(py::module &m)
 
     py::class_<Output>(m, "Output")
         .def(py::init([](Input &input, Matrix &matrix, Simulation &simulation) {
-            Output output;
-            output.write_output(input, matrix, simulation);
-            return output;
-        }))
+                 Output output;
+                 output.write_output(input, matrix, simulation);
+                 return output;
+             }),
+             py::keep_alive<1, 2>(), py::keep_alive<1, 3>(),
+             py::keep_alive<1, 4>())
         .def_readonly("traces", &Output::traces);
 }
 

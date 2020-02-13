@@ -8,12 +8,14 @@ void matrix(py::module &m)
 {
     using namespace JoSIM;
 
-    py::class_<Matrix>(m, "Matrix").def(py::init([](Input &input) {
-        Matrix matrix;
-        matrix.create_matrix(input);
-        find_relevant_traces(input.controls, matrix);
-        return matrix;
-    }));
+    py::class_<Matrix>(m, "Matrix")
+        .def(py::init([](Input &input) {
+                 Matrix matrix;
+                 matrix.create_matrix(input);
+                 find_relevant_traces(input.controls, matrix);
+                 return matrix;
+             }),
+             py::keep_alive<1, 2>());
 }
 
 } // namespace pyjosim

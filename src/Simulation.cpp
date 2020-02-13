@@ -10,9 +10,10 @@ void simulation(py::module &m)
 
     py::class_<Simulation>(m, "Simulation")
         .def(py::init([](Input &input, Matrix &matrix) {
-            Simulation simulation(input, matrix);
-            return simulation;
-        }));
+                 Simulation simulation(input, matrix);
+                 return simulation;
+             }),
+             py::keep_alive<1, 2>(), py::keep_alive<1, 3>());
 }
 
 } // namespace pyjosim
