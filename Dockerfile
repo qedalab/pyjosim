@@ -5,8 +5,7 @@ RUN yum -y update; yum clean all
 RUN yum -y install epel-release centos-release-scl; yum clean all
 
 # Basic dev tools
-RUN yum -y install devtoolset-8 git doxygen wget lcov python34 python34-pip sudo; yum clean all
-RUN python3.4 -m pip install conan sphinx cpp-coveralls cmake
+RUN yum -y install devtoolset-8 git wget; yum clean all
 
 # Install newer cmake seperate from system
 RUN mkdir /cmake/
@@ -25,6 +24,11 @@ RUN yum -y install rh-python36; yum clean all
 # Use newer cmake
 ENV PATH="/cmake/bin:${PATH}"
 
-COPY . /josim-tools-source/
+COPY . /pyjosim/
 
-RUN scl enable devtoolset-8 rh-python36 "cd josim-tools-source &&  python3.6 setup.py install"
+RUN scl enable rh-python36 "pip3.6 install --upgrade pip wheel auditwheel"
+RUN scl enable devtoolset-8 rh-python36 "cd pyjosim &&  python3.6 setup.py bdist_wheel"
+RUN yum -y install patchelf
+RUN scl enable rh-python36 "cd pyjosim && auditwheel show dist/*.whl"
+RUN scl enable rh-python36 "cd pyjosim && auditwheel repair --plat=manylinux2014_x86_64 dist/*.whl"
+RUN ls pyjosim/dist
