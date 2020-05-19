@@ -26,6 +26,7 @@ pybind11_add_module(pyjosim
                     src/Parameters.cpp
                     src/Simulation.cpp
                     src/pyjosim.cpp
+                    src/stl.cpp
   )
 
 target_compile_features(pyjosim PUBLIC cxx_std_17)

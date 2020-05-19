@@ -15,6 +15,7 @@ void output(py::module &m);
 void parameter_name(py::module &m);
 void parameters(py::module &m);
 void simulation(py::module &m);
+void stl(py::module &m);
 
 }; // namespace pyjosim
 
@@ -35,4 +36,5 @@ PYBIND11_MODULE(pyjosim, m)
     parameter_name(m);
     parameters(m);
     simulation(m);
+    stl(m);
 }

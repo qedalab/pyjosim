@@ -3,7 +3,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/CPM.cmake)
 CPMAddPackage(
   NAME pybind11
   GITHUB_REPOSITORY pybind/pybind11
-  VERSION 2.4.3
+  VERSION 2.5.0
 )
 
 CPMAddPackage(

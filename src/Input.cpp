@@ -2,6 +2,7 @@
 #include "JoSIM/Model.hpp"
 
 #include <pybind11/pybind11.h>
+//#include <pybind11/stl.h>
 namespace py = pybind11;
 
 namespace pyjosim {
@@ -30,6 +31,8 @@ void input(py::module &m)
                                         self.parameters);
                  }
              })
+        .def_property_readonly("controls",
+                               [](Input &input) { return input.controls; })
         .def("clear_all_plots",
              [](Input &input) {
                  input.controls.erase(std::remove_if(
