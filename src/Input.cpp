@@ -44,7 +44,7 @@ void input(py::module &m)
                          }
 
                          return false;
-                     }));
+                     }), input.controls.end());
              })
         .def("add_plot", [](Input &input, const std::string &str) {
             input.controls.emplace_back(
